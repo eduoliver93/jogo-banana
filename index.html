@@ -12,53 +12,51 @@
       font-family: 'Segoe UI', Arial, sans-serif;
       -webkit-tap-highlight-color: transparent;
     }
-
     html, body {
-      height: 100%;
-      overflow: hidden;
-      overscroll-behavior: none;
-      -webkit-text-size-adjust: 100%;
-      -webkit-user-select: none;
-      user-select: none;
+      height: 100%; overflow: hidden; overscroll-behavior: none;
+      -webkit-text-size-adjust: 100%; -webkit-user-select: none; user-select: none;
     }
-
     body {
       display: flex; justify-content: center; align-items: center;
       background: linear-gradient(135deg, #f9d423, #ff4e50);
-      padding: 12px;
-      position: fixed;
-      inset: 0;
-      width: 100%;
-      touch-action: manipulation;
+      padding: 12px; position: fixed; inset: 0; width: 100%;
+      touch-action: manipulation; transition: background 0.5s;
     }
-
     .container {
-      background: #fff; border-radius: 20px; padding: 22px 20px; text-align: center;
+      background: #fff; border-radius: 20px; padding: 18px; text-align: center;
       box-shadow: 0 15px 40px rgba(0,0,0,0.25);
-      max-width: 420px; width: 100%;
-      max-height: 95vh;
-      position: relative;
-      display: flex; flex-direction: column;
-      overflow: hidden;
+      max-width: 420px; width: 100%; max-height: 96vh;
+      position: relative; display: flex; flex-direction: column; overflow: hidden;
     }
-
-    #btn-ranking {
-      display: block;
-      margin: 0 auto 12px auto;
-      padding: 8px 18px;
-      background: #f9d423;
-      color: #333;
-      font-size: 14px;
-      border-radius: 20px;
-      box-shadow: 0 3px 8px rgba(243, 156, 18, 0.35);
+    .topo-botoes {
+      display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-bottom: 10px;
     }
-    #btn-ranking:hover { filter: brightness(1.05); }
+    .topo-botoes button {
+      padding: 6px 12px; font-size: 12px; border-radius: 16px;
+      background: #f9d423; color: #333;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.12);
+    }
+    .topo-botoes button:hover { filter: brightness(1.05); }
 
-    h1 {
-      color: #333;
+    /* ===== TÍTULO COM LOGO ===== */
+    .titulo-com-logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
       margin-bottom: 14px;
-      font-size: 1.6rem;
+    }
+    .titulo-com-logo h1 {
+      margin-bottom: 0;
+      color: #333;
+      font-size: 1.5rem;
       letter-spacing: 0.5px;
+    }
+    .logo {
+      width: 48px;
+      height: 48px;
+      object-fit: contain;
+      border-radius: 50%;
     }
 
     #tela-nome input {
@@ -71,133 +69,189 @@
     button {
       cursor: pointer; border: none; border-radius: 10px;
       font-weight: bold; transition: transform 0.05s, filter 0.2s;
-      touch-action: manipulation;
-      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation; -webkit-tap-highlight-color: transparent;
     }
-
     #btn-iniciar { width: 100%; padding: 12px; background: #ff4e50; color: #fff; font-size: 18px; }
     #btn-iniciar:hover { filter: brightness(1.1); }
 
     #tela-jogo { display: none; flex-direction: column; flex: 1; justify-content: space-between; }
-    #saudacao { font-size: 16px; color: #555; margin-bottom: 6px; }
-    #pontos { font-size: 36px; font-weight: bold; color: #ff4e50; margin-bottom: 6px; }
+    .hud-topo {
+      display: flex; justify-content: center; gap: 14px; align-items: center;
+      font-size: 12px; color: #555; margin-bottom: 4px;
+    }
+    .hud-topo .stat { display: flex; align-items: center; gap: 3px; }
+    #saudacao { font-size: 14px; color: #555; margin-bottom: 4px; }
+    #evolucao-emoji { font-size: 28px; line-height: 1; margin-bottom: 4px; }
+    #pontos { font-size: 32px; font-weight: bold; color: #ff4e50; margin-bottom: 4px; line-height: 1.1; }
+    #multiplicador {
+      display: inline-block; padding: 3px 10px; border-radius: 12px;
+      background: #ff4e50; color: #fff; font-size: 13px; font-weight: bold;
+      margin-bottom: 6px; transition: all 0.2s;
+    }
+    #multiplicador.inativo { background: #ddd; color: #888; }
+    #meta-evolucao { font-size: 12px; color: #f39c12; font-weight: bold; margin-bottom: 4px; }
 
     #banana {
-      font-size: clamp(80px, 28vw, 120px);
+      font-size: clamp(72px, 25vw, 110px);
       background: none; border: none; cursor: pointer;
-      user-select: none;
-      line-height: 1;
-      margin: 0 auto;
-      padding: 10px;
-
-      touch-action: none;
-      -webkit-touch-callout: none;
-      -webkit-user-select: none;
-      -webkit-tap-highlight-color: transparent;
-
-      transition: transform 0.05s;
-      will-change: transform;
+      user-select: none; line-height: 1; margin: 0 auto; padding: 8px;
+      touch-action: none; -webkit-touch-callout: none;
+      transition: transform 0.05s; will-change: transform;
+      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.15));
     }
     #banana:hover { transform: scale(1.05) rotate(-3deg); }
-    #banana:active { transform: scale(0.92); }
-
-    .dica { color: #888; font-size: 13px; margin-top: 6px; }
+    #banana:active { transform: scale(0.9); }
+    #banana.dourada {
+      filter: drop-shadow(0 0 20px gold) drop-shadow(0 0 30px orange);
+      animation: brilho 0.6s infinite alternate;
+    }
+    @keyframes brilho {
+      from { transform: scale(1); }
+      to { transform: scale(1.08); }
+    }
+    .dica { color: #888; font-size: 12px; margin-top: 4px; }
 
     #btn-parar {
-      width: 100%; padding: 14px; margin-top: 14px;
-      background: #333; color: #fff; font-size: 16px;
+      width: 100%; padding: 12px; margin-top: 10px;
+      background: #333; color: #fff; font-size: 15px;
     }
     #btn-parar:hover { filter: brightness(1.2); background: #c0392b; }
 
     #tela-resultado { display: none; }
-    #tela-resultado h2 { color: #ff4e50; margin-bottom: 12px; font-size: 1.4rem; }
-    #resultado-texto { font-size: 17px; color: #333; margin-bottom: 8px; line-height: 1.4; }
-    #resultado-pontos { font-size: 42px; font-weight: bold; color: #27ae60; margin: 10px 0; }
-    #mensagem-final { font-size: 15px; color: #666; font-style: italic; margin-bottom: 15px; }
-    #status-salvamento { font-size: 13px; color: #3498db; margin-bottom: 12px; min-height: 18px; }
+    #tela-resultado h2 { color: #ff4e50; margin-bottom: 10px; font-size: 1.3rem; }
+    #resultado-texto { font-size: 16px; color: #333; margin-bottom: 6px; line-height: 1.4; }
+    #resultado-pontos { font-size: 36px; font-weight: bold; color: #27ae60; margin: 8px 0; }
+    #mensagem-final { font-size: 14px; color: #666; font-style: italic; margin-bottom: 12px; }
+    #status-salvamento { font-size: 12px; color: #3498db; margin-bottom: 10px; min-height: 16px; }
+
+    .conquistas-desbloqueadas {
+      background: #fff8d6; border: 1px solid #f9d423;
+      border-radius: 10px; padding: 8px; margin-bottom: 10px;
+      font-size: 12px; color: #856404; text-align: left;
+    }
+    .conquistas-desbloqueadas strong { display: block; margin-bottom: 4px; }
+    .conquistas-desbloqueadas .item { margin: 2px 0; }
 
     #btn-jogar-novamente {
-      width: 100%; padding: 12px; background: #f9d423; color: #333;
-      font-size: 17px; margin-bottom: 8px;
+      width: 100%; padding: 10px; background: #f9d423; color: #333;
+      font-size: 15px; margin-bottom: 6px;
     }
     #btn-jogar-novamente:hover { filter: brightness(1.05); }
-
-    #btn-ver-ranking { width: 100%; padding: 12px; background: #3498db; color: #fff; font-size: 15px; }
+    #btn-ver-ranking {
+      width: 100%; padding: 10px; background: #3498db; color: #fff; font-size: 14px;
+    }
     #btn-ver-ranking:hover { filter: brightness(1.1); }
 
     .modal-overlay {
-      display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6);
-      justify-content: center; align-items: center; z-index: 100; padding: 16px;
+      display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.65);
+      justify-content: center; align-items: center; z-index: 100; padding: 14px;
     }
     .modal-overlay.ativo { display: flex; }
-
     .modal {
-      background: #fff; border-radius: 20px; padding: 22px 20px;
+      background: #fff; border-radius: 20px; padding: 20px 18px;
       max-width: 400px; width: 100%; text-align: center;
       box-shadow: 0 20px 50px rgba(0,0,0,0.3);
       animation: aparecer 0.3s ease-out;
-      max-height: 90vh; overflow-y: auto;
-      -webkit-overflow-scrolling: touch;
+      max-height: 90vh; overflow-y: auto; -webkit-overflow-scrolling: touch;
     }
     @keyframes aparecer { from { opacity: 0; transform: scale(0.85); } to { opacity: 1; transform: scale(1); } }
+    .modal h2 { color: #f39c12; margin-bottom: 15px; font-size: 1.2rem; }
 
-    .modal h2 { color: #f39c12; margin-bottom: 18px; font-size: 1.25rem; }
-    .ranking-lista { list-style: none; text-align: left; margin-bottom: 15px; }
+    .ranking-lista { list-style: none; text-align: left; margin-bottom: 12px; }
     .ranking-lista li {
-      display: flex; align-items: center; padding: 9px 11px; margin-bottom: 5px;
-      border-radius: 10px; background: #f8f9fa; font-size: 14px; gap: 8px;
+      display: flex; align-items: center; padding: 8px 10px; margin-bottom: 4px;
+      border-radius: 10px; background: #f8f9fa; font-size: 13px; gap: 8px;
     }
     .ranking-lista li.destaque { background: #fff8d6; border: 2px solid #f9d423; font-weight: bold; }
     .ranking-lista li.vazio { background: #fafafa; color: #bbb; font-style: italic; }
     .ranking-lista li.vazio .posicao, .ranking-lista li.vazio .pontos-rank { color: #ccc; }
-    .ranking-lista li .posicao { font-size: 17px; font-weight: bold; color: #f39c12; min-width: 30px; text-align: center; }
+    .ranking-lista li .posicao { font-size: 16px; font-weight: bold; color: #f39c12; min-width: 28px; text-align: center; }
     .ranking-lista li .nome-rank { flex: 1; color: #333; word-break: break-word; text-align: left; }
-    .ranking-lista li .pontos-rank { color: #27ae60; font-weight: bold; white-space: nowrap; }
+    .ranking-lista li .pontos-rank { color: #27ae60; font-weight: bold; white-space: nowrap; font-size: 12px; }
 
-    #btn-fechar-modal { width: 100%; padding: 12px; background: #333; color: #fff; font-size: 15px; }
+    .conquista-item {
+      display: flex; align-items: center; gap: 10px;
+      background: #f8f9fa; border-radius: 12px; padding: 10px 12px;
+      margin-bottom: 6px; text-align: left; opacity: 0.5;
+    }
+    .conquista-item.desbloqueada {
+      opacity: 1; background: #fff8d6; border: 2px solid #f9d423;
+    }
+    .conquista-item .emoji { font-size: 24px; }
+    .conquista-item .info .nome { font-weight: bold; color: #333; font-size: 14px; }
+    .conquista-item .info .desc { font-size: 11px; color: #777; margin-top: 2px; }
+
+    #btn-fechar-modal { width: 100%; padding: 12px; background: #333; color: #fff; font-size: 15px; margin-top: 6px; }
     #btn-fechar-modal:hover { filter: brightness(1.2); }
 
     .pontos-flutuantes {
       position: fixed; font-size: 20px; font-weight: bold; color: #27ae60;
       pointer-events: none; animation: subir 0.7s ease-out forwards; z-index: 200;
-      will-change: transform, opacity;
+      will-change: transform, opacity; text-shadow: 0 2px 4px rgba(0,0,0,0.2);
     }
     @keyframes subir {
       0% { opacity: 1; transform: translateY(0) scale(1); }
       100% { opacity: 0; transform: translateY(-50px) scale(1.3); }
     }
 
+    .notif-conquista {
+      position: fixed; top: 20px; left: 50%; transform: translateX(-50%) translateY(-200%);
+      background: linear-gradient(135deg, #f9d423, #ff4e50);
+      color: #fff; padding: 12px 20px; border-radius: 12px;
+      font-weight: bold; font-size: 14px; z-index: 300;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+      transition: transform 0.4s ease-out;
+      max-width: 90vw; text-align: center;
+    }
+    .notif-conquista.ativo { transform: translateX(-50%) translateY(0); }
+
     @media (max-width: 360px) {
-      .container { padding: 18px 14px; }
-      #pontos { font-size: 30px; }
-      #resultado-pontos { font-size: 34px; }
-      h1 { font-size: 1.35rem; }
-      .modal h2 { font-size: 1.1rem; }
-      .ranking-lista li { font-size: 13px; padding: 8px 10px; }
-      .ranking-lista li .posicao { font-size: 15px; min-width: 26px; }
+      .container { padding: 14px 12px; }
+      #pontos { font-size: 26px; }
+      #resultado-pontos { font-size: 28px; }
+      .titulo-com-logo h1 { font-size: 1.25rem; }
+      .logo { width: 40px; height: 40px; }
+      #banana { font-size: clamp(64px, 22vw, 90px); }
+      .modal h2 { font-size: 1.05rem; }
+      .ranking-lista li { font-size: 12px; padding: 7px 9px; }
     }
   </style>
 </head>
 <body>
   <div class="container">
 
-    <button id="btn-ranking" title="Ver recorde">🏆 Ranking</button>
+    <div class="topo-botoes">
+      <button id="btn-ranking">🏆 Ranking</button>
+      <button id="btn-conquistas">🏅 Conquistas</button>
+    </div>
 
     <!-- Tela de início -->
     <div id="tela-nome">
-      <h1>🐒 Monkey Hunger</h1>
-      <p style="margin-bottom:15px; color:#666; font-size:15px;">Digite seu nome para começar:</p>
+      <!-- ✅ TÍTULO COM LOGO -->
+      <div class="titulo-com-logo">
+        <img src="logo.png" alt="Logo Monkey Hunger" class="logo">
+        <h1>Monkey Hunger</h1>
+      </div>
+
+      <p style="margin-bottom:15px; color:#666; font-size:14px;">Digite seu nome para começar:</p>
       <input type="text" id="input-nome" placeholder="Seu nome" maxlength="20" autocomplete="off">
       <button id="btn-iniciar">Começar a Comer!</button>
+      <p id="recorde-pessoal-inicio" style="margin-top:12px; font-size:12px; color:#888;"></p>
     </div>
 
     <!-- Tela do jogo -->
     <div id="tela-jogo">
       <div>
+        <div class="hud-topo">
+          <span class="stat">🍌 <span id="total-bananas">0</span></span>
+          <span class="stat">🏆 <span id="recorde-hud">0</span></span>
+        </div>
+        <div id="evolucao-emoji">🐒</div>
         <p id="saudacao"></p>
         <div id="pontos">0 🍌</div>
+        <div id="multiplicador" class="inativo">x1</div>
+        <div id="meta-evolucao"></div>
         <button id="banana" title="Clique para comer!">🍌</button>
-        <!-- ✅ FRASE TROCADA AQUI -->
         <p class="dica">Coma rápido para virar um gorila! 🦍</p>
       </div>
       <button id="btn-parar">😩 Não aguento comer mais!</button>
@@ -209,29 +263,37 @@
       <p id="resultado-texto"></p>
       <div id="resultado-pontos">0</div>
       <p id="mensagem-final"></p>
+      <div id="conquistas-desbloqueadas" class="conquistas-desbloqueadas" style="display:none;"></div>
       <p id="status-salvamento"></p>
       <button id="btn-jogar-novamente">🔄 Jogar Novamente</button>
       <button id="btn-ver-ranking">🏆 Ver Ranking</button>
     </div>
   </div>
 
-  <!-- Modal de Ranking -->
+  <!-- Modal Ranking -->
   <div class="modal-overlay" id="modal-ranking">
     <div class="modal">
       <h2>🏆 Top 10 Macacos Famintos</h2>
       <div id="ranking-conteudo"></div>
-      <button id="btn-fechar-modal">Fechar</button>
+      <button id="btn-fechar-ranking">Fechar</button>
+    </div>
+  </div>
+
+  <!-- Modal Conquistas -->
+  <div class="modal-overlay" id="modal-conquistas">
+    <div class="modal">
+      <h2>🏅 Conquistas</h2>
+      <div id="conquistas-conteudo"></div>
+      <button id="btn-fechar-conquistas">Fechar</button>
     </div>
   </div>
 
   <script type="module">
-    // ===== IMPORTS DO FIREBASE =====
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
     import {
-      getFirestore, collection, addDoc, getDocs, query, orderBy, limit, serverTimestamp
+      getFirestore, collection, addDoc, getDocs, query, orderBy, limit, serverTimestamp, where
     } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
 
-    // ===== CONFIGURAÇÃO DO FIREBASE =====
     const firebaseConfig = {
       apiKey: "AIzaSyAxbBCIhMc1EIRuN2TbZ7P6JRhnqMr8n_I",
       authDomain: "banana-clicker-e7040.firebaseapp.com",
@@ -241,234 +303,384 @@
       appId: "1:245505964485:web:64caf4e654b0029b9b73ac",
       measurementId: "G-CFWMLZ987P"
     };
-
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    // ===== ELEMENTOS =====
-    const telaNome = document.getElementById('tela-nome');
-    const telaJogo = document.getElementById('tela-jogo');
-    const telaResultado = document.getElementById('tela-resultado');
-    const inputNome = document.getElementById('input-nome');
-    const btnIniciar = document.getElementById('btn-iniciar');
-    const saudacao = document.getElementById('saudacao');
-    const pontosEl = document.getElementById('pontos');
-    const banana = document.getElementById('banana');
-    const btnParar = document.getElementById('btn-parar');
-    const resultadoTexto = document.getElementById('resultado-texto');
-    const resultadoPontos = document.getElementById('resultado-pontos');
-    const mensagemFinal = document.getElementById('mensagem-final');
-    const statusSalvamento = document.getElementById('status-salvamento');
-    const btnJogarNovamente = document.getElementById('btn-jogar-novamente');
-    const btnVerRanking = document.getElementById('btn-ver-ranking');
-    const btnRanking = document.getElementById('btn-ranking');
-    const modalRanking = document.getElementById('modal-ranking');
-    const rankingConteudo = document.getElementById('ranking-conteudo');
-    const btnFecharModal = document.getElementById('btn-fechar-modal');
+    const EVOLUCOES = [
+      { min: 0,    max: 49,   emoji: '🐒', nome: 'Macaco' },
+      { min: 50,   max: 99,   emoji: '🦧', nome: 'Orangotango' },
+      { min: 100,  max: 199,  emoji: '🦍', nome: 'Gorila' },
+      { min: 200,  max: 499,  emoji: '👑', nome: 'Gorila Rei' },
+      { min: 500,  max: Infinity, emoji: '🔥', nome: 'Gorila Lendário' }
+    ];
 
-    // ===== ESTADO =====
-    let pontos = 0;
-    let nomeUsuario = '';
+    const CONQUISTAS = [
+      { id: 'primeira',   emoji: '🍌', nome: 'Primeira Mordida', desc: 'Coma 1 banana' },
+      { id: 'dez',        emoji: '🔟', nome: 'Dez Bananas', desc: 'Coma 10 bananas' },
+      { id: 'cinquenta',  emoji: '💪', nome: 'Meio Centenário', desc: 'Coma 50 bananas' },
+      { id: 'cem',        emoji: '💯', nome: 'Centurião', desc: 'Coma 100 bananas' },
+      { id: 'duzentos',   emoji: '🦍', nome: 'Gorila', desc: 'Coma 200 bananas' },
+      { id: 'quinhentos', emoji: '👑', nome: 'Gorila Rei', desc: 'Coma 500 bananas' },
+      { id: 'combo10',    emoji: '🔥', nome: 'Em Chamas', desc: 'Atinge combo x10' },
+      { id: 'dourada',    emoji: '⭐', nome: 'Sortudo', desc: 'Encontre uma banana dourada' }
+    ];
+
+    const $ = id => document.getElementById(id);
+    const telaNome = $('tela-nome'), telaJogo = $('tela-jogo'), telaResultado = $('tela-resultado');
+    const inputNome = $('input-nome'), btnIniciar = $('btn-iniciar');
+    const saudacao = $('saudacao'), pontosEl = $('pontos'), banana = $('banana');
+    const btnParar = $('btn-parar');
+    const multiplicadorEl = $('multiplicador');
+    const evolucaoEmoji = $('evolucao-emoji');
+    const metaEvolucao = $('meta-evolucao');
+    const totalBananasEl = $('total-bananas'), recordeHudEl = $('recorde-hud');
+    const resultadoTexto = $('resultado-texto'), resultadoPontos = $('resultado-pontos');
+    const mensagemFinal = $('mensagem-final'), statusSalvamento = $('status-salvamento');
+    const btnJogarNovamente = $('btn-jogar-novamente'), btnVerRanking = $('btn-ver-ranking');
+    const modalRanking = $('modal-ranking'), rankingConteudo = $('ranking-conteudo');
+    const modalConquistas = $('modal-conquistas'), conquistasConteudo = $('conquistas-conteudo');
+    const conquistasDesbloqueadasEl = $('conquistas-desbloqueadas');
+
+    let pontos = 0, nomeUsuario = '';
+    let totalBananas = 0;
+    let multiplicador = 1;
+    let ultimoClique = 0;
+    let cliquesConsecutivos = 0;
+    let comboTimeout = null;
+    let conquistasSessao = new Set();
+    let bananaDouradaAtiva = false;
     const MAX_RANKING = 10;
+    const CHANCE_DOURADA = 0.03;
+    const BANANA_DOURADA_PONTOS = 50;
+    const RECORDE_KEY = 'monkeyHunger_recordePessoal';
 
-    // ===== ANTI-ZOOM GLOBAL =====
-    document.addEventListener('gesturestart', (e) => e.preventDefault());
-    document.addEventListener('gesturechange', (e) => e.preventDefault());
-    document.addEventListener('gestureend', (e) => e.preventDefault());
-    document.addEventListener('touchstart', (e) => {
-      if (e.touches.length > 1) e.preventDefault();
-    }, { passive: false });
-    document.addEventListener('dblclick', (e) => e.preventDefault(), { passive: false });
+    document.addEventListener('gesturestart', e => e.preventDefault());
+    document.addEventListener('gesturechange', e => e.preventDefault());
+    document.addEventListener('gestureend', e => e.preventDefault());
+    document.addEventListener('touchstart', e => { if (e.touches.length > 1) e.preventDefault(); }, { passive: false });
+    document.addEventListener('dblclick', e => e.preventDefault(), { passive: false });
 
-    // ===== INICIAR JOGO =====
-    btnIniciar.addEventListener('click', iniciarJogo);
-    inputNome.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') iniciarJogo();
-    });
-
-    function iniciarJogo() {
-      const nome = inputNome.value.trim();
-      if (nome === '') {
-        alert('Por favor, digite um nome de usuário!');
-        return;
-      }
-      nomeUsuario = nome;
-      pontos = 0;
-      pontosEl.textContent = `${pontos} 🍌`;
-      saudacao.textContent = `Jogador: ${nomeUsuario}`;
-      telaNome.style.display = 'none';
-      telaResultado.style.display = 'none';
-      telaJogo.style.display = 'flex';
+    let audioCtx = null;
+    function tocarSom(frequencia = 800, duracao = 0.05, tipo = 'sine') {
+      try {
+        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = tipo; osc.frequency.value = frequencia;
+        gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duracao);
+        osc.connect(gain); gain.connect(audioCtx.destination);
+        osc.start(); osc.stop(audioCtx.currentTime + duracao);
+      } catch (e) {}
     }
 
-    // ===== FUNÇÃO DE SOMAR PONTO =====
+    function obterRecordePessoal() {
+      try { return parseInt(localStorage.getItem(RECORDE_KEY) || '0'); } catch { return 0; }
+    }
+    function salvarRecordePessoal(v) {
+      try { localStorage.setItem(RECORDE_KEY, String(v)); } catch {}
+    }
+
+    async function carregarConquistasDoBanco(nome) {
+      try {
+        const q = query(collection(db, 'conquistas'), where('nome', '==', nome));
+        const snap = await getDocs(q);
+        const lista = [];
+        snap.forEach(d => lista.push(d.data().id));
+        return lista;
+      } catch { return []; }
+    }
+
+    async function salvarConquista(nome, id) {
+      try {
+        await addDoc(collection(db, 'conquistas'), { nome, id, data: serverTimestamp() });
+      } catch (e) { console.error('Erro conquista:', e); }
+    }
+
+    function desbloquearConquista(id) {
+      if (conquistasSessao.has(id)) return false;
+      const c = CONQUISTAS.find(x => x.id === id);
+      if (!c) return false;
+      conquistasSessao.add(id);
+      mostrarNotificacao(`${c.emoji} Conquista: ${c.nome}!`);
+      tocarSom(1200, 0.15, 'triangle');
+      salvarConquista(nomeUsuario, id);
+      return true;
+    }
+
+    function mostrarNotificacao(texto) {
+      const el = document.createElement('div');
+      el.className = 'notif-conquista';
+      el.textContent = texto;
+      document.body.appendChild(el);
+      setTimeout(() => el.classList.add('ativo'), 50);
+      setTimeout(() => { el.classList.remove('ativo'); setTimeout(() => el.remove(), 400); }, 2500);
+    }
+
+    function obterEvolucao(p) {
+      for (const e of EVOLUCOES) if (p >= e.min && p <= e.max) return e;
+      return EVOLUCOES[0];
+    }
+
+    function atualizarEvolucao() {
+      const e = obterEvolucao(pontos);
+      evolucaoEmoji.textContent = e.emoji;
+      const idx = EVOLUCOES.findIndex(x => x === e);
+      if (idx < EVOLUCOES.length - 1) {
+        const proxima = EVOLUCOES[idx + 1];
+        metaEvolucao.textContent = `Faltam ${proxima.min - pontos} 🍌 para virar ${proxima.nome}!`;
+      } else metaEvolucao.textContent = '🔥 Você é uma lenda!';
+      const cores = [
+        'linear-gradient(135deg, #f9d423, #ff4e50)',
+        'linear-gradient(135deg, #f9d423, #e67e22)',
+        'linear-gradient(135deg, #f39c12, #8e44ad)',
+        'linear-gradient(135deg, #c0392b, #8e44ad)',
+        'linear-gradient(135deg, #2c3e50, #c0392b)'
+      ];
+      document.body.style.background = cores[idx] || cores[0];
+    }
+
+    function resetarCombo() { cliquesConsecutivos = 0; multiplicador = 1; atualizarMultiplicador(); }
+    function atualizarMultiplicador() {
+      multiplicadorEl.textContent = `x${multiplicador}`;
+      multiplicadorEl.classList.toggle('inativo', multiplicador === 1);
+    }
+
+    function processarClique() {
+      const agora = performance.now();
+      const delta = agora - ultimoClique;
+      ultimoClique = agora;
+      if (delta > 500) cliquesConsecutivos = 0;
+      cliquesConsecutivos++;
+      if (cliquesConsecutivos >= 30) multiplicador = 10;
+      else if (cliquesConsecutivos >= 20) multiplicador = 5;
+      else if (cliquesConsecutivos >= 12) multiplicador = 3;
+      else if (cliquesConsecutivos >= 6) multiplicador = 2;
+      else multiplicador = 1;
+      if (multiplicador >= 10) desbloquearConquista('combo10');
+      atualizarMultiplicador();
+      clearTimeout(comboTimeout);
+      comboTimeout = setTimeout(resetarCombo, 1000);
+    }
+
     function somarPonto(x, y) {
-      pontos++;
+      processarClique();
+      const ganho = multiplicador;
+      pontos += ganho; totalBananas += ganho;
       pontosEl.textContent = `${pontos} 🍌`;
-      mostrarPontoFlutuante(x, y);
+      totalBananasEl.textContent = totalBananas;
+      atualizarEvolucao();
+      mostrarPontoFlutuante(x, y, ganho);
+      if (pontos >= 1) desbloquearConquista('primeira');
+      if (pontos >= 10) desbloquearConquista('dez');
+      if (pontos >= 50) desbloquearConquista('cinquenta');
+      if (pontos >= 100) desbloquearConquista('cem');
+      if (pontos >= 200) desbloquearConquista('duzentos');
+      if (pontos >= 500) desbloquearConquista('quinhentos');
+      if (Math.random() < CHANCE_DOURADA && !bananaDouradaAtiva) ativarBananaDourada();
+      tocarSom(600 + multiplicador * 100, 0.04);
     }
 
-    // ===== CLIQUES RÁPIDOS NO CELULAR =====
+    function ativarBananaDourada() {
+      bananaDouradaAtiva = true;
+      banana.classList.add('dourada');
+      banana.textContent = '🍌✨';
+      tocarSom(1500, 0.3, 'triangle');
+      setTimeout(() => {
+        bananaDouradaAtiva = false;
+        banana.classList.remove('dourada');
+        banana.textContent = '🍌';
+      }, 3000);
+    }
+
+    function mostrarPontoFlutuante(x, y, ganho) {
+      const el = document.createElement('div');
+      el.classList.add('pontos-flutuantes');
+      el.textContent = `+${ganho} 🍌`;
+      el.style.left = x + 'px'; el.style.top = y + 'px';
+      if (ganho >= 20) el.style.color = '#f39c12';
+      else if (ganho >= 10) el.style.color = '#e74c3c';
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), 700);
+    }
+
     let ultimoDisparo = 0;
     const INTERVALO_MINIMO = 25;
 
     function tratarToque(e) {
       e.preventDefault();
-
       const agora = performance.now();
       if (agora - ultimoDisparo < INTERVALO_MINIMO) return;
       ultimoDisparo = agora;
-
       let x, y;
-      if (e.touches && e.touches.length > 0) {
-        x = e.touches[0].clientX;
-        y = e.touches[0].clientY;
-      } else if (e.changedTouches && e.changedTouches.length > 0) {
-        x = e.changedTouches[0].clientX;
-        y = e.changedTouches[0].clientY;
-      } else {
-        x = e.clientX;
-        y = e.clientY;
+      if (e.touches?.length) { x = e.touches[0].clientX; y = e.touches[0].clientY; }
+      else if (e.changedTouches?.length) { x = e.changedTouches[0].clientX; y = e.changedTouches[0].clientY; }
+      else { x = e.clientX; y = e.clientY; }
+      if (bananaDouradaAtiva) {
+        pontos += BANANA_DOURADA_PONTOS;
+        totalBananas += BANANA_DOURADA_PONTOS;
+        pontosEl.textContent = `${pontos} 🍌`;
+        totalBananasEl.textContent = totalBananas;
+        mostrarPontoFlutuante(x, y, BANANA_DOURADA_PONTOS);
+        desbloquearConquista('dourada');
+        bananaDouradaAtiva = false;
+        banana.classList.remove('dourada');
+        banana.textContent = '🍌';
+        atualizarEvolucao();
+        tocarSom(1800, 0.2, 'triangle');
+        return;
       }
-
       somarPonto(x, y);
-
       banana.style.transform = 'scale(0.9)';
       setTimeout(() => { banana.style.transform = ''; }, 60);
     }
 
     banana.addEventListener('touchstart', tratarToque, { passive: false });
-    banana.addEventListener('mousedown', (e) => {
-      if (e.button !== 0) return;
-      tratarToque(e);
-    });
-    banana.addEventListener('click', (e) => e.preventDefault());
+    banana.addEventListener('mousedown', e => { if (e.button === 0) tratarToque(e); });
+    banana.addEventListener('click', e => e.preventDefault());
 
-    function mostrarPontoFlutuante(x, y) {
-      const flutuante = document.createElement('div');
-      flutuante.classList.add('pontos-flutuantes');
-      flutuante.textContent = '+1 🍌';
-      flutuante.style.left = x + 'px';
-      flutuante.style.top = y + 'px';
-      document.body.appendChild(flutuante);
-      setTimeout(() => flutuante.remove(), 700);
+    btnIniciar.addEventListener('click', iniciarJogo);
+    inputNome.addEventListener('keydown', e => { if (e.key === 'Enter') iniciarJogo(); });
+
+    function iniciarJogo() {
+      const nome = inputNome.value.trim();
+      if (!nome) { alert('Por favor, digite um nome de usuário!'); return; }
+      nomeUsuario = nome;
+      pontos = 0; totalBananas = 0; multiplicador = 1;
+      cliquesConsecutivos = 0; conquistasSessao.clear();
+      pontosEl.textContent = '0 🍌';
+      totalBananasEl.textContent = '0';
+      saudacao.textContent = `Jogador: ${nomeUsuario}`;
+      recordeHudEl.textContent = obterRecordePessoal();
+      multiplicadorEl.textContent = 'x1';
+      multiplicadorEl.classList.add('inativo');
+      atualizarEvolucao();
+      carregarConquistasDoBanco(nome).then(lista => lista.forEach(id => conquistasSessao.add(id)));
+      telaNome.style.display = 'none';
+      telaResultado.style.display = 'none';
+      telaJogo.style.display = 'flex';
     }
 
-    // ===== FINALIZAR JOGO =====
     btnParar.addEventListener('click', finalizarJogo);
 
     async function finalizarJogo() {
       telaJogo.style.display = 'none';
       telaResultado.style.display = 'block';
-      statusSalvamento.textContent = '⏳ Salvando no ranking global...';
+      statusSalvamento.textContent = '⏳ Salvando...';
       statusSalvamento.style.color = '#3498db';
-
+      const evolucao = obterEvolucao(pontos);
       resultadoTexto.textContent = `${nomeUsuario}, você comeu ${pontos} banana${pontos === 1 ? '' : 's'}!`;
       resultadoPontos.textContent = `${pontos} banana${pontos === 1 ? '' : 's'} comida${pontos === 1 ? '' : 's'}`;
-
       let msg = '';
       if (pontos === 0) msg = 'Você nem tocou na banana... ficou com fome! 🥺';
-      else if (pontos < 10) msg = 'Isso foi só um lanchinho! Ainda dá pra comer mais. 🍌';
-      else if (pontos < 30) msg = 'Boa! Você é fã de banana! 🍌🍌';
-      else if (pontos < 60) msg = 'Uau! Você é um verdadeiro macaco viciado em banana! 🐒';
-      else msg = 'LENDÁRIO! Você é o REI DOS MACACOS! 👑🐒';
-
+      else if (pontos < 50) msg = `Você virou um ${evolucao.nome}! Continue comendo! ${evolucao.emoji}`;
+      else if (pontos < 100) msg = `${evolucao.emoji} ${evolucao.nome}! Você tá evoluindo!`;
+      else if (pontos < 200) msg = `${evolucao.emoji} Você é um ${evolucao.nome} de verdade!`;
+      else if (pontos < 500) msg = `${evolucao.emoji} ${evolucao.nome}! Impressionante!`;
+      else msg = `🔥 LENDÁRIO! Você é o ${evolucao.nome}!`;
       mensagemFinal.textContent = msg;
+      const recordeAntigo = obterRecordePessoal();
+      if (pontos > recordeAntigo) {
+        salvarRecordePessoal(pontos);
+        mensagemFinal.textContent = msg + ' 🎉 NOVO RECORDE PESSOAL!';
+      }
+      if (conquistasSessao.size > 0) {
+        conquistasDesbloqueadasEl.style.display = 'block';
+        let html = `<strong>🏅 Conquistas desbloqueadas:</strong>`;
+        conquistasSessao.forEach(id => {
+          const c = CONQUISTAS.find(x => x.id === id);
+          if (c) html += `<div class="item">${c.emoji} ${c.nome}</div>`;
+        });
+        conquistasDesbloqueadasEl.innerHTML = html;
+      } else conquistasDesbloqueadasEl.style.display = 'none';
 
       try {
-        await addDoc(collection(db, 'ranking'), {
-          nome: nomeUsuario,
-          pontos: pontos,
-          data: serverTimestamp()
-        });
+        await addDoc(collection(db, 'ranking'), { nome: nomeUsuario, pontos, data: serverTimestamp() });
         statusSalvamento.textContent = '✅ Pontuação salva no ranking global!';
         statusSalvamento.style.color = '#27ae60';
       } catch (err) {
-        console.error('Erro ao salvar:', err);
-        statusSalvamento.textContent = '❌ Erro ao salvar. Verifique as regras do Firestore.';
+        console.error(err);
+        statusSalvamento.textContent = '❌ Erro ao salvar. Verifique as regras.';
         statusSalvamento.style.color = '#e74c3c';
       }
     }
 
-    // ===== JOGAR NOVAMENTE =====
     btnJogarNovamente.addEventListener('click', () => {
-      pontos = 0;
-      pontosEl.textContent = `0 🍌`;
+      pontos = 0; totalBananas = 0;
+      pontosEl.textContent = '0 🍌';
+      totalBananasEl.textContent = '0';
       inputNome.value = '';
       telaResultado.style.display = 'none';
       telaNome.style.display = 'block';
       inputNome.focus();
+      document.body.style.background = 'linear-gradient(135deg, #f9d423, #ff4e50)';
+      const rec = obterRecordePessoal();
+      $('recorde-pessoal-inicio').textContent = rec > 0 ? `🏆 Seu recorde pessoal: ${rec} 🍌` : '';
     });
 
-    // ===== RANKING =====
     async function abrirRanking() {
       modalRanking.classList.add('ativo');
       rankingConteudo.innerHTML = '<p style="color:#888">Carregando...</p>';
-
       try {
-        const q = query(
-          collection(db, 'ranking'),
-          orderBy('pontos', 'desc'),
-          limit(MAX_RANKING)
-        );
-        const snapshot = await getDocs(q);
-        const lista = [];
-        snapshot.forEach(doc => lista.push(doc.data()));
-
+        const q = query(collection(db, 'ranking'), orderBy('pontos', 'desc'), limit(MAX_RANKING));
+        const snap = await getDocs(q);
+        const lista = []; snap.forEach(d => lista.push(d.data()));
         let html = '<ol class="ranking-lista">';
         for (let i = 0; i < MAX_RANKING; i++) {
-          const posicao = i + 1;
-          const item = lista[i];
-
-          let medalha = `${posicao}º`;
-          if (posicao === 1) medalha = '🥇';
-          else if (posicao === 2) medalha = '🥈';
-          else if (posicao === 3) medalha = '🥉';
-
+          const pos = i + 1; const item = lista[i];
+          let m = `${pos}º`;
+          if (pos === 1) m = '🥇'; else if (pos === 2) m = '🥈'; else if (pos === 3) m = '🥉';
           if (item) {
-            const destaque = item.nome === nomeUsuario ? ' destaque' : '';
-            const textoQtd = `${item.pontos} banana${item.pontos === 1 ? '' : 's'}`;
-            html += `
-              <li class="${destaque.trim()}">
-                <span class="posicao">${medalha}</span>
-                <span class="nome-rank">${escapeHtml(item.nome)}</span>
-                <span class="pontos-rank">${textoQtd} 🍌</span>
-              </li>`;
+            const dest = item.nome === nomeUsuario ? ' destaque' : '';
+            html += `<li class="${dest.trim()}"><span class="posicao">${m}</span><span class="nome-rank">${escapeHtml(item.nome)}</span><span class="pontos-rank">${item.pontos} bananas 🍌</span></li>`;
           } else {
-            html += `
-              <li class="vazio">
-                <span class="posicao">${medalha}</span>
-                <span class="nome-rank">--- vago ---</span>
-                <span class="pontos-rank">0 bananas 🍌</span>
-              </li>`;
+            html += `<li class="vazio"><span class="posicao">${m}</span><span class="nome-rank">--- vago ---</span><span class="pontos-rank">0 bananas 🍌</span></li>`;
           }
         }
         html += '</ol>';
         rankingConteudo.innerHTML = html;
       } catch (err) {
-        console.error('Erro ao carregar ranking:', err);
-        rankingConteudo.innerHTML = '<p style="color:#e74c3c">Erro ao carregar ranking. Verifique as regras do Firestore.</p>';
+        console.error(err);
+        rankingConteudo.innerHTML = '<p style="color:#e74c3c">Erro ao carregar ranking.</p>';
       }
     }
 
-    function fecharRanking() {
-      modalRanking.classList.remove('ativo');
+    function abrirConquistas() {
+      modalConquistas.classList.add('ativo');
+      let html = '';
+      CONQUISTAS.forEach(c => {
+        const on = conquistasSessao.has(c.id);
+        html += `
+          <div class="conquista-item ${on ? 'desbloqueada' : ''}">
+            <div class="emoji">${on ? c.emoji : '🔒'}</div>
+            <div class="info">
+              <div class="nome">${c.nome}</div>
+              <div class="desc">${c.desc}</div>
+            </div>
+          </div>`;
+      });
+      conquistasConteudo.innerHTML = html;
     }
 
-    btnRanking.addEventListener('click', abrirRanking);
+    $('btn-ranking').addEventListener('click', abrirRanking);
     btnVerRanking.addEventListener('click', abrirRanking);
-    btnFecharModal.addEventListener('click', fecharRanking);
-    modalRanking.addEventListener('click', (e) => {
-      if (e.target === modalRanking) fecharRanking();
-    });
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') fecharRanking();
-    });
+    $('btn-conquistas').addEventListener('click', abrirConquistas);
 
-    function escapeHtml(texto) {
-      const div = document.createElement('div');
-      div.textContent = texto;
-      return div.innerHTML;
+    function fecharModais() {
+      modalRanking.classList.remove('ativo');
+      modalConquistas.classList.remove('ativo');
+    }
+    $('btn-fechar-ranking').addEventListener('click', fecharModais);
+    $('btn-fechar-conquistas').addEventListener('click', fecharModais);
+    [modalRanking, modalConquistas].forEach(m => {
+      m.addEventListener('click', e => { if (e.target === m) fecharModais(); });
+    });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') fecharModais(); });
+
+    function escapeHtml(t) {
+      const d = document.createElement('div');
+      d.textContent = t;
+      return d.innerHTML;
     }
   </script>
 </body>

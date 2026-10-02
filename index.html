@@ -2,97 +2,164 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
   <title>🍌 Banana Clicker</title>
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
+    * {
+      margin: 0; padding: 0; box-sizing: border-box;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      height: 100%;
+      overflow: hidden;              /* evita scroll e "puxar" a página */
+      overscroll-behavior: none;     /* evita efeito elástico no iOS/Android */
+      touch-action: manipulation;    /* desabilita duplo-toque para zoom */
+      -webkit-text-size-adjust: 100%;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
     body {
-      min-height: 100vh; display: flex; justify-content: center; align-items: center;
-      background: linear-gradient(135deg, #f9d423, #ff4e50); padding: 20px;
+      display: flex; justify-content: center; align-items: center;
+      background: linear-gradient(135deg, #f9d423, #ff4e50);
+      padding: 12px;
+      position: fixed;               /* trava a viewport */
+      inset: 0;
+      width: 100%;
     }
+
     .container {
-      background: #fff; border-radius: 20px; padding: 30px; text-align: center;
-      box-shadow: 0 15px 40px rgba(0,0,0,0.25); max-width: 420px; width: 100%; position: relative;
+      background: #fff; border-radius: 20px; padding: 22px 20px; text-align: center;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+      max-width: 420px; width: 100%;
+      max-height: 95vh;
+      position: relative;
+      display: flex; flex-direction: column;
+      overflow: hidden;
     }
-    h1 { color: #333; margin-bottom: 10px; }
+
+    h1 { color: #333; margin-bottom: 10px; font-size: 1.6rem; }
+
     #tela-nome input {
-      width: 100%; padding: 12px; font-size: 16px; border: 2px solid #ddd;
-      border-radius: 10px; margin-bottom: 15px; outline: none; text-align: center;
+      width: 100%; padding: 12px; font-size: 16px;
+      border: 2px solid #ddd; border-radius: 10px;
+      margin-bottom: 15px; outline: none; text-align: center;
     }
     #tela-nome input:focus { border-color: #f9d423; }
-    button { cursor: pointer; border: none; border-radius: 10px; font-weight: bold; transition: transform 0.1s, filter 0.2s; }
+
+    button {
+      cursor: pointer; border: none; border-radius: 10px;
+      font-weight: bold; transition: transform 0.1s, filter 0.2s;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+    }
     button:active { transform: scale(0.95); }
+
     #btn-iniciar { width: 100%; padding: 12px; background: #ff4e50; color: #fff; font-size: 18px; }
     #btn-iniciar:hover { filter: brightness(1.1); }
-    #tela-jogo { display: none; }
-    #saudacao { font-size: 18px; color: #555; margin-bottom: 10px; }
-    #pontos { font-size: 40px; font-weight: bold; color: #ff4e50; margin-bottom: 15px; }
+
+    #tela-jogo { display: none; flex-direction: column; flex: 1; justify-content: space-between; }
+    #saudacao { font-size: 16px; color: #555; margin-bottom: 6px; }
+    #pontos { font-size: 36px; font-weight: bold; color: #ff4e50; margin-bottom: 6px; }
+
     #banana {
-      font-size: 120px; background: none; border: none; cursor: pointer;
+      font-size: clamp(80px, 28vw, 120px);   /* banana se adapta ao tamanho da tela */
+      background: none; border: none; cursor: pointer;
       user-select: none; transition: transform 0.1s; line-height: 1;
+      margin: 0 auto;
     }
     #banana:hover { transform: scale(1.1) rotate(-5deg); }
     #banana:active { transform: scale(0.9); }
-    .dica { color: #888; font-size: 14px; margin-top: 10px; }
+
+    .dica { color: #888; font-size: 13px; margin-top: 6px; }
+
     #btn-parar {
-      width: 100%; padding: 12px; margin-top: 20px; background: #333; color: #fff; font-size: 16px;
+      width: 100%; padding: 14px; margin-top: 14px;
+      background: #333; color: #fff; font-size: 16px;
     }
     #btn-parar:hover { filter: brightness(1.2); background: #c0392b; }
+
     #btn-ranking {
-      position: absolute; top: 15px; right: 15px; padding: 8px 12px;
-      background: #f9d423; color: #333; font-size: 14px; border-radius: 8px; z-index: 10;
+      position: absolute; top: 12px; right: 12px;
+      padding: 8px 12px; background: #f9d423; color: #333;
+      font-size: 13px; border-radius: 8px; z-index: 10;
     }
     #btn-ranking:hover { filter: brightness(1.05); }
+
     #tela-resultado { display: none; }
-    #tela-resultado h2 { color: #ff4e50; margin-bottom: 15px; }
-    #resultado-texto { font-size: 20px; color: #333; margin-bottom: 10px; line-height: 1.5; }
-    #resultado-pontos { font-size: 48px; font-weight: bold; color: #27ae60; margin: 15px 0; }
-    #mensagem-final { font-size: 16px; color: #666; font-style: italic; margin-bottom: 20px; }
-    #status-salvamento {
-      font-size: 13px; color: #3498db; margin-bottom: 15px; min-height: 18px;
-    }
+    #tela-resultado h2 { color: #ff4e50; margin-bottom: 12px; font-size: 1.4rem; }
+    #resultado-texto { font-size: 17px; color: #333; margin-bottom: 8px; line-height: 1.4; }
+    #resultado-pontos { font-size: 42px; font-weight: bold; color: #27ae60; margin: 10px 0; }
+    #mensagem-final { font-size: 15px; color: #666; font-style: italic; margin-bottom: 15px; }
+    #status-salvamento { font-size: 13px; color: #3498db; margin-bottom: 12px; min-height: 18px; }
+
     #btn-jogar-novamente {
-      width: 100%; padding: 12px; background: #f9d423; color: #333; font-size: 18px; margin-bottom: 10px;
+      width: 100%; padding: 12px; background: #f9d423; color: #333;
+      font-size: 17px; margin-bottom: 8px;
     }
     #btn-jogar-novamente:hover { filter: brightness(1.05); }
-    #btn-ver-ranking {
-      width: 100%; padding: 12px; background: #3498db; color: #fff; font-size: 16px;
-    }
+
+    #btn-ver-ranking { width: 100%; padding: 12px; background: #3498db; color: #fff; font-size: 15px; }
     #btn-ver-ranking:hover { filter: brightness(1.1); }
+
     .modal-overlay {
       display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6);
-      justify-content: center; align-items: center; z-index: 100; padding: 20px;
+      justify-content: center; align-items: center; z-index: 100; padding: 16px;
     }
     .modal-overlay.ativo { display: flex; }
+
     .modal {
-      background: #fff; border-radius: 20px; padding: 25px; max-width: 400px; width: 100%;
-      text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.3);
-      animation: aparecer 0.3s ease-out; max-height: 85vh; overflow-y: auto;
+      background: #fff; border-radius: 20px; padding: 22px 20px;
+      max-width: 400px; width: 100%; text-align: center;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+      animation: aparecer 0.3s ease-out;
+      max-height: 90vh; overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
     }
     @keyframes aparecer { from { opacity: 0; transform: scale(0.85); } to { opacity: 1; transform: scale(1); } }
-    .modal h2 { color: #f39c12; margin-bottom: 20px; font-size: 22px; }
+
+    .modal h2 { color: #f39c12; margin-bottom: 18px; font-size: 1.25rem; }
     .ranking-lista { list-style: none; text-align: left; margin-bottom: 15px; }
     .ranking-lista li {
-      display: flex; align-items: center; padding: 10px 12px; margin-bottom: 6px;
-      border-radius: 10px; background: #f8f9fa; font-size: 15px; gap: 10px;
+      display: flex; align-items: center; padding: 9px 11px; margin-bottom: 5px;
+      border-radius: 10px; background: #f8f9fa; font-size: 14px; gap: 8px;
     }
     .ranking-lista li.destaque { background: #fff8d6; border: 2px solid #f9d423; font-weight: bold; }
     .ranking-lista li.vazio { background: #fafafa; color: #bbb; font-style: italic; }
     .ranking-lista li.vazio .posicao, .ranking-lista li.vazio .pontos-rank { color: #ccc; }
-    .ranking-lista li .posicao {
-      font-size: 18px; font-weight: bold; color: #f39c12; min-width: 32px; text-align: center;
-    }
+    .ranking-lista li .posicao { font-size: 17px; font-weight: bold; color: #f39c12; min-width: 30px; text-align: center; }
     .ranking-lista li .nome-rank { flex: 1; color: #333; word-break: break-word; text-align: left; }
     .ranking-lista li .pontos-rank { color: #27ae60; font-weight: bold; white-space: nowrap; }
-    #btn-fechar-modal { width: 100%; padding: 12px; background: #333; color: #fff; font-size: 16px; }
+
+    #btn-fechar-modal { width: 100%; padding: 12px; background: #333; color: #fff; font-size: 15px; }
     #btn-fechar-modal:hover { filter: brightness(1.2); }
+
     .pontos-flutuantes {
-      position: fixed; font-size: 24px; font-weight: bold; color: #27ae60;
+      position: fixed; font-size: 22px; font-weight: bold; color: #27ae60;
       pointer-events: none; animation: subir 0.8s ease-out forwards; z-index: 200;
     }
     @keyframes subir {
       0% { opacity: 1; transform: translateY(0); }
       100% { opacity: 0; transform: translateY(-60px); }
+    }
+
+    /* ===== Ajustes extras para telas pequenas ===== */
+    @media (max-width: 360px) {
+      .container { padding: 18px 14px; }
+      #pontos { font-size: 30px; }
+      #resultado-pontos { font-size: 34px; }
+      .modal h2 { font-size: 1.1rem; }
+      .ranking-lista li { font-size: 13px; padding: 8px 10px; }
+      .ranking-lista li .posicao { font-size: 15px; min-width: 26px; }
+    }
+
+    /* Impede o "pull to refresh" no topo da tela em navegadores móveis */
+    @supports (overscroll-behavior: none) {
+      html, body { overscroll-behavior: none; }
     }
   </style>
 </head>
@@ -103,17 +170,19 @@
     <!-- Tela de início -->
     <div id="tela-nome">
       <h1>🍌 Banana Clicker</h1>
-      <p style="margin-bottom:15px; color:#666;">Digite seu nome para começar:</p>
-      <input type="text" id="input-nome" placeholder="Seu nome" maxlength="20">
+      <p style="margin-bottom:15px; color:#666; font-size:15px;">Digite seu nome para começar:</p>
+      <input type="text" id="input-nome" placeholder="Seu nome" maxlength="20" autocomplete="off">
       <button id="btn-iniciar">Começar a Comer!</button>
     </div>
 
     <!-- Tela do jogo -->
     <div id="tela-jogo">
-      <p id="saudacao"></p>
-      <div id="pontos">0</div>
-      <button id="banana" title="Clique para comer!">🍌</button>
-      <p class="dica">Clique na banana para ganhar pontos!</p>
+      <div>
+        <p id="saudacao"></p>
+        <div id="pontos">0</div>
+        <button id="banana" title="Clique para comer!">🍌</button>
+        <p class="dica">Toque na banana para ganhar pontos!</p>
+      </div>
       <button id="btn-parar">😩 Não aguento comer mais!</button>
     </div>
 
@@ -185,6 +254,21 @@
     let nomeUsuario = '';
     const MAX_RANKING = 10;
 
+    // ===== EVITA ZOOM COM DUPLO TOQUE EM BOTÕES =====
+    document.addEventListener('dblclick', (e) => e.preventDefault(), { passive: false });
+
+    // ===== EVITA ZOOM COM GESTO DE PINÇA (alguns Androids antigos) =====
+    document.addEventListener('touchstart', (e) => {
+      if (e.touches.length > 1) e.preventDefault();
+    }, { passive: false });
+
+    let ultimoToque = 0;
+    document.addEventListener('touchend', (e) => {
+      const agora = Date.now();
+      if (agora - ultimoToque <= 300) e.preventDefault();
+      ultimoToque = agora;
+    }, { passive: false });
+
     // ===== INICIAR JOGO =====
     btnIniciar.addEventListener('click', iniciarJogo);
     inputNome.addEventListener('keydown', (e) => {
@@ -203,7 +287,7 @@
       saudacao.textContent = `Jogador: ${nomeUsuario}`;
       telaNome.style.display = 'none';
       telaResultado.style.display = 'none';
-      telaJogo.style.display = 'block';
+      telaJogo.style.display = 'flex';
     }
 
     // ===== CLIQUE NA BANANA =====
@@ -244,7 +328,6 @@
 
       mensagemFinal.textContent = msg;
 
-      // Salva no Firebase
       try {
         await addDoc(collection(db, 'ranking'), {
           nome: nomeUsuario,
@@ -255,7 +338,7 @@
         statusSalvamento.style.color = '#27ae60';
       } catch (err) {
         console.error('Erro ao salvar:', err);
-        statusSalvamento.textContent = '❌ Erro ao salvar. Verifique se as regras do Firestore estão publicadas.';
+        statusSalvamento.textContent = '❌ Erro ao salvar. Verifique as regras do Firestore.';
         statusSalvamento.style.color = '#e74c3c';
       }
     }
@@ -316,7 +399,7 @@
         rankingConteudo.innerHTML = html;
       } catch (err) {
         console.error('Erro ao carregar ranking:', err);
-        rankingConteudo.innerHTML = '<p style="color:#e74c3c">Erro ao carregar ranking. Verifique se as regras do Firestore estão publicadas (allow read, write).</p>';
+        rankingConteudo.innerHTML = '<p style="color:#e74c3c">Erro ao carregar ranking. Verifique as regras do Firestore.</p>';
       }
     }
 

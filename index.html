@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="mobile-web-app-capable" content="yes">
-  <title>🍌 Banana Clicker</title>
+  <title>🐒 Monkey Hunger</title>
   <style>
     * {
       margin: 0; padding: 0; box-sizing: border-box;
@@ -42,7 +42,24 @@
       overflow: hidden;
     }
 
-    h1 { color: #333; margin-bottom: 10px; font-size: 1.6rem; }
+    #btn-ranking {
+      display: block;
+      margin: 0 auto 12px auto;
+      padding: 8px 18px;
+      background: #f9d423;
+      color: #333;
+      font-size: 14px;
+      border-radius: 20px;
+      box-shadow: 0 3px 8px rgba(243, 156, 18, 0.35);
+    }
+    #btn-ranking:hover { filter: brightness(1.05); }
+
+    h1 {
+      color: #333;
+      margin-bottom: 14px;
+      font-size: 1.6rem;
+      letter-spacing: 0.5px;
+    }
 
     #tela-nome input {
       width: 100%; padding: 12px; font-size: 16px;
@@ -65,7 +82,6 @@
     #saudacao { font-size: 16px; color: #555; margin-bottom: 6px; }
     #pontos { font-size: 36px; font-weight: bold; color: #ff4e50; margin-bottom: 6px; }
 
-    /* ===== A BANANA: o segredo está aqui ===== */
     #banana {
       font-size: clamp(80px, 28vw, 120px);
       background: none; border: none; cursor: pointer;
@@ -74,13 +90,11 @@
       margin: 0 auto;
       padding: 10px;
 
-      /* ESSENCIAL: remove qualquer gesto do navegador (zoom, pan, scroll) sobre a banana */
       touch-action: none;
       -webkit-touch-callout: none;
       -webkit-user-select: none;
       -webkit-tap-highlight-color: transparent;
 
-      /* Resposta visual rápida */
       transition: transform 0.05s;
       will-change: transform;
     }
@@ -94,13 +108,6 @@
       background: #333; color: #fff; font-size: 16px;
     }
     #btn-parar:hover { filter: brightness(1.2); background: #c0392b; }
-
-    #btn-ranking {
-      position: absolute; top: 12px; right: 12px;
-      padding: 8px 12px; background: #f9d423; color: #333;
-      font-size: 13px; border-radius: 8px; z-index: 10;
-    }
-    #btn-ranking:hover { filter: brightness(1.05); }
 
     #tela-resultado { display: none; }
     #tela-resultado h2 { color: #ff4e50; margin-bottom: 12px; font-size: 1.4rem; }
@@ -150,7 +157,6 @@
     #btn-fechar-modal { width: 100%; padding: 12px; background: #333; color: #fff; font-size: 15px; }
     #btn-fechar-modal:hover { filter: brightness(1.2); }
 
-    /* Ponto flutuante mais leve */
     .pontos-flutuantes {
       position: fixed; font-size: 20px; font-weight: bold; color: #27ae60;
       pointer-events: none; animation: subir 0.7s ease-out forwards; z-index: 200;
@@ -165,6 +171,7 @@
       .container { padding: 18px 14px; }
       #pontos { font-size: 30px; }
       #resultado-pontos { font-size: 34px; }
+      h1 { font-size: 1.35rem; }
       .modal h2 { font-size: 1.1rem; }
       .ranking-lista li { font-size: 13px; padding: 8px 10px; }
       .ranking-lista li .posicao { font-size: 15px; min-width: 26px; }
@@ -173,11 +180,12 @@
 </head>
 <body>
   <div class="container">
+
     <button id="btn-ranking" title="Ver recorde">🏆 Ranking</button>
 
     <!-- Tela de início -->
     <div id="tela-nome">
-      <h1>🍌 Banana Clicker</h1>
+      <h1>🐒 Monkey Hunger</h1>
       <p style="margin-bottom:15px; color:#666; font-size:15px;">Digite seu nome para começar:</p>
       <input type="text" id="input-nome" placeholder="Seu nome" maxlength="20" autocomplete="off">
       <button id="btn-iniciar">Começar a Comer!</button>
@@ -187,9 +195,10 @@
     <div id="tela-jogo">
       <div>
         <p id="saudacao"></p>
-        <div id="pontos">0</div>
+        <div id="pontos">0 🍌</div>
         <button id="banana" title="Clique para comer!">🍌</button>
-        <p class="dica">Toque rápido na banana para ganhar pontos!</p>
+        <!-- ✅ FRASE TROCADA AQUI -->
+        <p class="dica">Coma rápido para virar um gorila! 🦍</p>
       </div>
       <button id="btn-parar">😩 Não aguento comer mais!</button>
     </div>
@@ -209,7 +218,7 @@
   <!-- Modal de Ranking -->
   <div class="modal-overlay" id="modal-ranking">
     <div class="modal">
-      <h2>🏆 Top 10 Comedores de Bananas</h2>
+      <h2>🏆 Top 10 Macacos Famintos</h2>
       <div id="ranking-conteudo"></div>
       <button id="btn-fechar-modal">Fechar</button>
     </div>
@@ -285,42 +294,31 @@
       }
       nomeUsuario = nome;
       pontos = 0;
-      pontosEl.textContent = pontos;
+      pontosEl.textContent = `${pontos} 🍌`;
       saudacao.textContent = `Jogador: ${nomeUsuario}`;
       telaNome.style.display = 'none';
       telaResultado.style.display = 'none';
       telaJogo.style.display = 'flex';
     }
 
-    // ===== FUNÇÃO DE SOMAR PONTO (reutilizável) =====
+    // ===== FUNÇÃO DE SOMAR PONTO =====
     function somarPonto(x, y) {
       pontos++;
-      pontosEl.textContent = pontos;
+      pontosEl.textContent = `${pontos} 🍌`;
       mostrarPontoFlutuante(x, y);
     }
 
-    // ============================================================
-    //  🍌 O SEGREDO DOS CLIQUES RÁPIDOS NO CELULAR
-    // ============================================================
-    // No desktop usamos 'click'. No celular, o 'click' tem atraso de ~300ms
-    // e só registra um por "toque". Usando 'touchstart' o dedo já conta
-    // no instante em que encosta na tela, permitindo dezenas de toques
-    // por segundo (tap-tap-tap-tap).
-    //
-    // Também usamos 'pointerdown' como fallback para navegadores modernos.
-    // ============================================================
-
+    // ===== CLIQUES RÁPIDOS NO CELULAR =====
     let ultimoDisparo = 0;
-    const INTERVALO_MINIMO = 25; // ms — permite até ~40 toques/segundo
+    const INTERVALO_MINIMO = 25;
 
     function tratarToque(e) {
-      e.preventDefault(); // evita zoom, seleção, scroll
+      e.preventDefault();
 
       const agora = performance.now();
-      if (agora - ultimoDisparo < INTERVALO_MINIMO) return; // throttle mínimo para não bugar
+      if (agora - ultimoDisparo < INTERVALO_MINIMO) return;
       ultimoDisparo = agora;
 
-      // Pega coordenadas do toque ou do clique
       let x, y;
       if (e.touches && e.touches.length > 0) {
         x = e.touches[0].clientX;
@@ -335,26 +333,21 @@
 
       somarPonto(x, y);
 
-      // Feedback visual rápido
       banana.style.transform = 'scale(0.9)';
       setTimeout(() => { banana.style.transform = ''; }, 60);
     }
 
-    // Registra os três eventos — o navegador escolhe o melhor
     banana.addEventListener('touchstart', tratarToque, { passive: false });
     banana.addEventListener('mousedown', (e) => {
-      // No desktop, usa mousedown para resposta mais rápida que 'click'
-      if (e.button !== 0) return; // só botão esquerdo
+      if (e.button !== 0) return;
       tratarToque(e);
     });
-
-    // Bloqueia o 'click' tradicional para não duplicar
     banana.addEventListener('click', (e) => e.preventDefault());
 
     function mostrarPontoFlutuante(x, y) {
       const flutuante = document.createElement('div');
       flutuante.classList.add('pontos-flutuantes');
-      flutuante.textContent = '+1';
+      flutuante.textContent = '+1 🍌';
       flutuante.style.left = x + 'px';
       flutuante.style.top = y + 'px';
       document.body.appendChild(flutuante);
@@ -371,14 +364,14 @@
       statusSalvamento.style.color = '#3498db';
 
       resultadoTexto.textContent = `${nomeUsuario}, você comeu ${pontos} banana${pontos === 1 ? '' : 's'}!`;
-      resultadoPontos.textContent = `${pontos} ponto${pontos === 1 ? '' : 's'}`;
+      resultadoPontos.textContent = `${pontos} banana${pontos === 1 ? '' : 's'} comida${pontos === 1 ? '' : 's'}`;
 
       let msg = '';
       if (pontos === 0) msg = 'Você nem tocou na banana... ficou com fome! 🥺';
       else if (pontos < 10) msg = 'Isso foi só um lanchinho! Ainda dá pra comer mais. 🍌';
       else if (pontos < 30) msg = 'Boa! Você é fã de banana! 🍌🍌';
       else if (pontos < 60) msg = 'Uau! Você é um verdadeiro macaco viciado em banana! 🐒';
-      else msg = 'LENDÁRIO! Você é o REI DAS BANANAS! 👑🍌';
+      else msg = 'LENDÁRIO! Você é o REI DOS MACACOS! 👑🐒';
 
       mensagemFinal.textContent = msg;
 
@@ -400,7 +393,7 @@
     // ===== JOGAR NOVAMENTE =====
     btnJogarNovamente.addEventListener('click', () => {
       pontos = 0;
-      pontosEl.textContent = 0;
+      pontosEl.textContent = `0 🍌`;
       inputNome.value = '';
       telaResultado.style.display = 'none';
       telaNome.style.display = 'block';
@@ -434,18 +427,19 @@
 
           if (item) {
             const destaque = item.nome === nomeUsuario ? ' destaque' : '';
+            const textoQtd = `${item.pontos} banana${item.pontos === 1 ? '' : 's'}`;
             html += `
               <li class="${destaque.trim()}">
                 <span class="posicao">${medalha}</span>
                 <span class="nome-rank">${escapeHtml(item.nome)}</span>
-                <span class="pontos-rank">${item.pontos} 🍌</span>
+                <span class="pontos-rank">${textoQtd} 🍌</span>
               </li>`;
           } else {
             html += `
               <li class="vazio">
                 <span class="posicao">${medalha}</span>
                 <span class="nome-rank">--- vago ---</span>
-                <span class="pontos-rank">0 🍌</span>
+                <span class="pontos-rank">0 bananas 🍌</span>
               </li>`;
           }
         }

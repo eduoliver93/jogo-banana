@@ -28,22 +28,26 @@
       max-width: 420px; width: 100%; max-height: 96vh;
       position: relative; display: flex; flex-direction: column; overflow: hidden;
     }
-    .topo-botoes {
-      display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-bottom: 10px;
+
+    #btn-idioma {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      padding: 6px 10px;
+      font-size: 12px;
+      border-radius: 14px;
+      background: #f0f0f0;
+      color: #333;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+      z-index: 5;
     }
-    .topo-botoes button {
-      padding: 6px 12px; font-size: 12px; border-radius: 16px;
-      background: #f9d423; color: #333;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.12);
-    }
-    .topo-botoes button:hover { filter: brightness(1.05); }
-    .topo-botoes button.lang-ativa { background: #3498db; color: #fff; }
+    #btn-idioma:hover { background: #e0e0e0; }
 
     .logo-jogo {
       display: block;
-      margin: 0 auto 18px auto;
+      margin: 30px auto 18px auto;
       width: 100%;
-      max-width: 400px;
+      max-width: 340px;
       height: auto;
       object-fit: contain;
       filter: drop-shadow(0 6px 12px rgba(0,0,0,0.2));
@@ -65,44 +69,41 @@
     #btn-iniciar:hover { filter: brightness(1.1); }
 
     #tela-jogo { display: none; flex-direction: column; flex: 1; justify-content: space-between; }
-    .hud-topo {
-      display: flex; justify-content: center; gap: 14px; align-items: center;
-      font-size: 12px; color: #555; margin-bottom: 4px;
-    }
-    .hud-topo .stat { display: flex; align-items: center; gap: 3px; }
+
     #saudacao { font-size: 14px; color: #555; margin-bottom: 4px; }
-    #evolucao-emoji { font-size: 28px; line-height: 1; margin-bottom: 4px; }
-    #pontos { font-size: 32px; font-weight: bold; color: #ff4e50; margin-bottom: 4px; line-height: 1.1; }
+    #evolucao-emoji { font-size: 32px; line-height: 1; margin-bottom: 4px; }
+    #pontos { font-size: 34px; font-weight: bold; color: #ff4e50; margin-bottom: 4px; line-height: 1.1; }
     #multiplicador {
-      display: inline-block; padding: 3px 10px; border-radius: 12px;
-      background: #ff4e50; color: #fff; font-size: 13px; font-weight: bold;
+      display: inline-block; padding: 4px 12px; border-radius: 14px;
+      background: #ff4e50; color: #fff; font-size: 14px; font-weight: bold;
       margin-bottom: 6px; transition: all 0.2s;
     }
     #multiplicador.inativo { background: #ddd; color: #888; }
-    #meta-evolucao { font-size: 12px; color: #f39c12; font-weight: bold; margin-bottom: 4px; }
+    #meta-evolucao { font-size: 12px; color: #f39c12; font-weight: bold; margin-bottom: 6px; }
 
     #banana {
-      font-size: clamp(72px, 25vw, 110px);
+      font-size: clamp(140px, 45vw, 220px);
       background: none; border: none; cursor: pointer;
       user-select: none; line-height: 1; margin: 0 auto; padding: 8px;
+      display: block;
       touch-action: none; -webkit-touch-callout: none;
       transition: transform 0.05s; will-change: transform;
-      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.15));
+      filter: drop-shadow(0 8px 16px rgba(0,0,0,0.18));
     }
     #banana:hover { transform: scale(1.05) rotate(-3deg); }
     #banana:active { transform: scale(0.9); }
     #banana.dourada {
-      filter: drop-shadow(0 0 20px gold) drop-shadow(0 0 30px orange);
+      filter: drop-shadow(0 0 30px gold) drop-shadow(0 0 40px orange);
       animation: brilho 0.6s infinite alternate;
     }
     @keyframes brilho {
       from { transform: scale(1); }
       to { transform: scale(1.08); }
     }
-    .dica { color: #888; font-size: 12px; margin-top: 4px; }
+    .dica { color: #888; font-size: 12px; margin-top: 6px; }
 
     #btn-parar {
-      width: 100%; padding: 12px; margin-top: 10px;
+      width: 100%; padding: 14px; margin-top: 14px;
       background: #333; color: #fff; font-size: 15px;
     }
     #btn-parar:hover { filter: brightness(1.2); background: #c0392b; }
@@ -127,10 +128,16 @@
       font-size: 15px; margin-bottom: 6px;
     }
     #btn-jogar-novamente:hover { filter: brightness(1.05); }
-    #btn-ver-ranking {
-      width: 100%; padding: 10px; background: #3498db; color: #fff; font-size: 14px;
+
+    .botoes-resultado {
+      display: flex; gap: 6px; margin-bottom: 6px;
     }
-    #btn-ver-ranking:hover { filter: brightness(1.1); }
+    .botoes-resultado button {
+      flex: 1; padding: 10px; font-size: 13px;
+      background: #3498db; color: #fff; border-radius: 10px;
+    }
+    .botoes-resultado button:hover { filter: brightness(1.1); }
+    .botoes-resultado button.conquistas { background: #f39c12; }
 
     .modal-overlay {
       display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.65);
@@ -149,25 +156,14 @@
 
     #btn-fechar-ranking,
     #btn-fechar-conquistas {
-      width: 100%;
-      padding: 12px;
-      background: #333;
-      color: #fff;
-      font-size: 15px;
-      margin-top: 12px;
-      border-radius: 10px;
-      cursor: pointer;
-      font-weight: bold;
+      width: 100%; padding: 12px; background: #333; color: #fff;
+      font-size: 15px; margin-top: 12px; border-radius: 10px;
+      cursor: pointer; font-weight: bold;
       transition: transform 0.1s, filter 0.2s;
     }
     #btn-fechar-ranking:hover,
     #btn-fechar-conquistas:hover {
-      filter: brightness(1.2);
-      background: #c0392b;
-    }
-    #btn-fechar-ranking:active,
-    #btn-fechar-conquistas:active {
-      transform: scale(0.97);
+      filter: brightness(1.2); background: #c0392b;
     }
 
     .ranking-lista { list-style: none; text-align: left; margin-bottom: 12px; }
@@ -195,7 +191,7 @@
     .conquista-item .info .desc { font-size: 11px; color: #777; margin-top: 2px; }
 
     .pontos-flutuantes {
-      position: fixed; font-size: 20px; font-weight: bold; color: #27ae60;
+      position: fixed; font-size: 22px; font-weight: bold; color: #27ae60;
       pointer-events: none; animation: subir 0.7s ease-out forwards; z-index: 200;
       will-change: transform, opacity; text-shadow: 0 2px 4px rgba(0,0,0,0.2);
     }
@@ -217,10 +213,10 @@
 
     @media (max-width: 360px) {
       .container { padding: 14px 12px; }
-      #pontos { font-size: 26px; }
+      #pontos { font-size: 28px; }
       #resultado-pontos { font-size: 28px; }
-      .logo-jogo { max-width: 320px; }
-      #banana { font-size: clamp(64px, 22vw, 90px); }
+      .logo-jogo { max-width: 280px; margin-top: 30px; }
+      #banana { font-size: clamp(120px, 42vw, 190px); }
       .modal h2 { font-size: 1.05rem; }
       .ranking-lista li { font-size: 12px; padding: 7px 9px; }
     }
@@ -229,11 +225,7 @@
 <body>
   <div class="container">
 
-    <div class="topo-botoes">
-      <button id="btn-idioma">🇧🇷 PT</button>
-      <button id="btn-ranking" data-i18n="btnRanking">🏆 Ranking</button>
-      <button id="btn-conquistas" data-i18n="btnConquistas">🏅 Achievements</button>
-    </div>
+    <button id="btn-idioma">🇧🇷 PT</button>
 
     <!-- Tela de início -->
     <div id="tela-nome">
@@ -247,10 +239,6 @@
     <!-- Tela do jogo -->
     <div id="tela-jogo">
       <div>
-        <div class="hud-topo">
-          <span class="stat">🍌 <span id="total-bananas">0</span></span>
-          <span class="stat">🏆 <span id="recorde-hud">0</span></span>
-        </div>
         <div id="evolucao-emoji">🐒</div>
         <p id="saudacao"></p>
         <div id="pontos">0 🍌</div>
@@ -271,7 +259,10 @@
       <div id="conquistas-desbloqueadas" class="conquistas-desbloqueadas" style="display:none;"></div>
       <p id="status-salvamento"></p>
       <button id="btn-jogar-novamente" data-i18n="btnJogarNovamente">🔄 Play Again</button>
-      <button id="btn-ver-ranking" data-i18n="btnVerRanking">🏆 View Ranking</button>
+      <div class="botoes-resultado">
+        <button id="btn-ranking" data-i18n="btnRanking">🏆 Ranking</button>
+        <button id="btn-conquistas" class="conquistas" data-i18n="btnConquistas">🏅 Achievements</button>
+      </div>
     </div>
   </div>
 
@@ -311,9 +302,6 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    // ============================================================
-    // 🌍 TRADUÇÕES (PT / EN)
-    // ============================================================
     const TRADUCOES = {
       pt: {
         btnRanking: '🏆 Ranking',
@@ -325,7 +313,6 @@
         btnParar: '😩 Não aguento comer mais!',
         fimJogo: '🏁 Fim de Jogo!',
         btnJogarNovamente: '🔄 Jogar Novamente',
-        btnVerRanking: '🏆 Ver Ranking',
         tituloRanking: '🏆 Top 10 Macacos Famintos',
         tituloConquistas: '🏅 Conquistas',
         btnFechar: 'Fechar',
@@ -374,7 +361,6 @@
         btnParar: "😩 I can't eat anymore!",
         fimJogo: '🏁 Game Over!',
         btnJogarNovamente: '🔄 Play Again',
-        btnVerRanking: '🏆 View Ranking',
         tituloRanking: '🏆 Top 10 Hungry Monkeys',
         tituloConquistas: '🏅 Achievements',
         btnFechar: 'Close',
@@ -415,8 +401,6 @@
       }
     };
 
-    // ===== IDIOMA ATUAL =====
-    // ✅ INGLÊS POR PADRÃO (só muda se o usuário escolher PT antes)
     let idiomaAtual = localStorage.getItem('monkeyHunger_idioma') || 'en';
     function t() { return TRADUCOES[idiomaAtual]; }
 
@@ -439,10 +423,9 @@
     const multiplicadorEl = $('multiplicador');
     const evolucaoEmoji = $('evolucao-emoji');
     const metaEvolucao = $('meta-evolucao');
-    const totalBananasEl = $('total-bananas'), recordeHudEl = $('recorde-hud');
     const resultadoTexto = $('resultado-texto'), resultadoPontos = $('resultado-pontos');
     const mensagemFinal = $('mensagem-final'), statusSalvamento = $('status-salvamento');
-    const btnJogarNovamente = $('btn-jogar-novamente'), btnVerRanking = $('btn-ver-ranking');
+    const btnJogarNovamente = $('btn-jogar-novamente');
     const modalRanking = $('modal-ranking'), rankingConteudo = $('ranking-conteudo');
     const modalConquistas = $('modal-conquistas'), conquistasConteudo = $('conquistas-conteudo');
     const conquistasDesbloqueadasEl = $('conquistas-desbloqueadas');
@@ -467,19 +450,51 @@
     document.addEventListener('touchstart', e => { if (e.touches.length > 1) e.preventDefault(); }, { passive: false });
     document.addEventListener('dblclick', e => e.preventDefault(), { passive: false });
 
+    // ============================================================
+    // 🔊 ÁUDIO CORRIGIDO PARA CELULAR
+    // ============================================================
     let audioCtx = null;
+    let audioDesbloqueado = false;
+
+    function prepararAudio() {
+      try {
+        if (!audioCtx) {
+          audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+        if (audioCtx.state === 'suspended') {
+          audioCtx.resume().then(() => {
+            audioDesbloqueado = true;
+          }).catch(() => {});
+        } else {
+          audioDesbloqueado = true;
+        }
+      } catch (e) {
+        console.warn('Áudio indisponível:', e);
+      }
+    }
+
     function tocarSom(frequencia = 800, duracao = 0.05, tipo = 'sine') {
       try {
-        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        if (!audioCtx) prepararAudio();
+        if (!audioCtx) return;
+        if (audioCtx.state === 'suspended') audioCtx.resume();
         const osc = audioCtx.createOscillator();
         const gain = audioCtx.createGain();
-        osc.type = tipo; osc.frequency.value = frequencia;
+        osc.type = tipo;
+        osc.frequency.value = frequencia;
         gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
         gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duracao);
-        osc.connect(gain); gain.connect(audioCtx.destination);
-        osc.start(); osc.stop(audioCtx.currentTime + duracao);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + duracao);
       } catch (e) {}
     }
+
+    // 🔓 Desbloqueia o áudio em QUALQUER interação do usuário
+    ['touchstart', 'touchend', 'mousedown', 'click', 'keydown'].forEach(evento => {
+      document.addEventListener(evento, prepararAudio, { once: true, passive: true });
+    });
 
     function obterRecordePessoal() {
       try { return parseInt(localStorage.getItem(RECORDE_KEY) || '0'); } catch { return 0; }
@@ -577,7 +592,6 @@
       const ganho = multiplicador;
       pontos += ganho; totalBananas += ganho;
       pontosEl.textContent = `${pontos} 🍌`;
-      totalBananasEl.textContent = totalBananas;
       atualizarEvolucao();
       mostrarPontoFlutuante(x, y, ganho);
       if (pontos >= 1) desbloquearConquista('primeira');
@@ -629,7 +643,6 @@
         pontos += BANANA_DOURADA_PONTOS;
         totalBananas += BANANA_DOURADA_PONTOS;
         pontosEl.textContent = `${pontos} 🍌`;
-        totalBananasEl.textContent = totalBananas;
         mostrarPontoFlutuante(x, y, BANANA_DOURADA_PONTOS);
         desbloquearConquista('dourada');
         bananaDouradaAtiva = false;
@@ -658,9 +671,7 @@
       pontos = 0; totalBananas = 0; multiplicador = 1;
       cliquesConsecutivos = 0; conquistasSessao.clear();
       pontosEl.textContent = '0 🍌';
-      totalBananasEl.textContent = '0';
       saudacao.textContent = `${t().jogador}: ${nomeUsuario}`;
-      recordeHudEl.textContent = obterRecordePessoal();
       multiplicadorEl.textContent = 'x1';
       multiplicadorEl.classList.add('inativo');
       atualizarEvolucao();
@@ -668,6 +679,9 @@
       telaNome.style.display = 'none';
       telaResultado.style.display = 'none';
       telaJogo.style.display = 'flex';
+      // 🔓 Garante áudio ativo ao iniciar o jogo
+      prepararAudio();
+      tocarSom(800, 0.1, 'sine');
     }
 
     btnParar.addEventListener('click', finalizarJogo);
@@ -718,7 +732,6 @@
     btnJogarNovamente.addEventListener('click', () => {
       pontos = 0; totalBananas = 0;
       pontosEl.textContent = '0 🍌';
-      totalBananasEl.textContent = '0';
       inputNome.value = '';
       telaResultado.style.display = 'none';
       telaNome.style.display = 'block';
@@ -774,7 +787,6 @@
     }
 
     $('btn-ranking').addEventListener('click', abrirRanking);
-    btnVerRanking.addEventListener('click', abrirRanking);
     $('btn-conquistas').addEventListener('click', abrirConquistas);
 
     function fecharModais() {
@@ -794,7 +806,6 @@
       return d.innerHTML;
     }
 
-    // ===== SISTEMA DE IDIOMAS =====
     function aplicarIdioma() {
       btnIdioma.textContent = idiomaAtual === 'pt' ? '🇬🇧 EN' : '🇧🇷 PT';
       btnIdioma.title = idiomaAtual === 'pt' ? 'Switch to English' : 'Mudar para Português';

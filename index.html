@@ -38,25 +38,15 @@
     }
     .topo-botoes button:hover { filter: brightness(1.05); }
 
-    /* ===== TÍTULO COM LOGO ===== */
-    .titulo-com-logo {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 14px;
-      margin-bottom: 14px;
-    }
-    .titulo-com-logo h1 {
-      margin-bottom: 0;
-      color: #333;
-      font-size: 1.5rem;
-      letter-spacing: 0.5px;
-    }
-    .logo {
-      width: 90px;
-      height: 90px;
+    /* ===== LOGO GRANDE ===== */
+    .logo-jogo {
+      display: block;
+      margin: 0 auto 18px auto;
+      width: 100%;
+      max-width: 400px;   /* ← GRANDE: ocupa quase toda a largura do container */
+      height: auto;
       object-fit: contain;
-      border-radius: 50%;
+      filter: drop-shadow(0 6px 12px rgba(0,0,0,0.2));
     }
 
     #tela-nome input {
@@ -209,8 +199,7 @@
       .container { padding: 14px 12px; }
       #pontos { font-size: 26px; }
       #resultado-pontos { font-size: 28px; }
-      .titulo-com-logo h1 { font-size: 1.2rem; }
-      .logo { width: 70px; height: 70px; }
+      .logo-jogo { max-width: 320px; }   /* continua grande em telas pequenas */
       #banana { font-size: clamp(64px, 22vw, 90px); }
       .modal h2 { font-size: 1.05rem; }
       .ranking-lista li { font-size: 12px; padding: 7px 9px; }
@@ -227,10 +216,8 @@
 
     <!-- Tela de início -->
     <div id="tela-nome">
-      <div class="titulo-com-logo">
-        <img src="logo.png" alt="Logo Monkey Hunger" class="logo">
-        <h1>Monkey Hunger</h1>
-      </div>
+      <!-- ✅ LOGO GRANDE no lugar do título -->
+      <img src="logo.png" alt="Monkey Hunger" class="logo-jogo">
 
       <p style="margin-bottom:15px; color:#666; font-size:14px;">Digite seu nome para começar:</p>
       <input type="text" id="input-nome" placeholder="Seu nome" maxlength="20" autocomplete="off">

@@ -43,7 +43,7 @@
       display: block;
       margin: 0 auto 18px auto;
       width: 100%;
-      max-width: 400px;   /* ← GRANDE: ocupa quase toda a largura do container */
+      max-width: 400px;
       height: auto;
       object-fit: contain;
       filter: drop-shadow(0 6px 12px rgba(0,0,0,0.2));
@@ -147,6 +147,30 @@
     @keyframes aparecer { from { opacity: 0; transform: scale(0.85); } to { opacity: 1; transform: scale(1); } }
     .modal h2 { color: #f39c12; margin-bottom: 15px; font-size: 1.2rem; }
 
+    /* ===== BOTÕES "FECHAR" DOS MODAIS ===== */
+    #btn-fechar-ranking,
+    #btn-fechar-conquistas {
+      width: 100%;
+      padding: 12px;
+      background: #333;
+      color: #fff;
+      font-size: 15px;
+      margin-top: 12px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: transform 0.1s, filter 0.2s;
+    }
+    #btn-fechar-ranking:hover,
+    #btn-fechar-conquistas:hover {
+      filter: brightness(1.2);
+      background: #c0392b;
+    }
+    #btn-fechar-ranking:active,
+    #btn-fechar-conquistas:active {
+      transform: scale(0.97);
+    }
+
     .ranking-lista { list-style: none; text-align: left; margin-bottom: 12px; }
     .ranking-lista li {
       display: flex; align-items: center; padding: 8px 10px; margin-bottom: 4px;
@@ -170,9 +194,6 @@
     .conquista-item .emoji { font-size: 24px; }
     .conquista-item .info .nome { font-weight: bold; color: #333; font-size: 14px; }
     .conquista-item .info .desc { font-size: 11px; color: #777; margin-top: 2px; }
-
-    #btn-fechar-modal { width: 100%; padding: 12px; background: #333; color: #fff; font-size: 15px; margin-top: 6px; }
-    #btn-fechar-modal:hover { filter: brightness(1.2); }
 
     .pontos-flutuantes {
       position: fixed; font-size: 20px; font-weight: bold; color: #27ae60;
@@ -199,7 +220,7 @@
       .container { padding: 14px 12px; }
       #pontos { font-size: 26px; }
       #resultado-pontos { font-size: 28px; }
-      .logo-jogo { max-width: 320px; }   /* continua grande em telas pequenas */
+      .logo-jogo { max-width: 320px; }
       #banana { font-size: clamp(64px, 22vw, 90px); }
       .modal h2 { font-size: 1.05rem; }
       .ranking-lista li { font-size: 12px; padding: 7px 9px; }
@@ -216,9 +237,7 @@
 
     <!-- Tela de início -->
     <div id="tela-nome">
-      <!-- ✅ LOGO GRANDE no lugar do título -->
       <img src="logo.png" alt="Monkey Hunger" class="logo-jogo">
-
       <p style="margin-bottom:15px; color:#666; font-size:14px;">Digite seu nome para começar:</p>
       <input type="text" id="input-nome" placeholder="Seu nome" maxlength="20" autocomplete="off">
       <button id="btn-iniciar">Começar a Comer!</button>
